@@ -1,0 +1,130 @@
+/* Estilo general */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #fef9f4; /* color cálido tipo restaurante */
+  margin: 20px;
+  color: #333;
+}
+
+h2,
+h3 {
+  color: #d35400; /* naranja restaurante */
+}
+
+/* Botones generales */
+button {
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  border-radius: 10px;
+  background-color: #e67e22; /* naranja cálido */
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  transition: 0.2s;
+}
+
+button:hover {
+  background-color: #d35400;
+}
+
+/* Teclado numérico y billetes */
+#teclado button,
+#billetes button {
+  width: 60px;
+  height: 50px;
+  font-size: 18px;
+}
+
+/* Billetes en grid 3x2 */
+#billetes {
+  display: grid;
+  grid-template-columns: repeat(3, 60px);
+  grid-auto-rows: 50px;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Botón Cobrar */
+#formVenta button {
+  width: 100%;
+  height: 50px;
+  font-size: 18px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  transition: 0.2s;
+  margin-top: 10px;
+}
+
+#formVenta button:hover {
+  background-color: #1e8449;
+}
+
+/* Tablas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+table th,
+table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+table tr:nth-child(even) {
+  background-color: #f8f4f0;
+}
+
+/* Columnas de la tabla */
+table th:nth-child(1),
+table td:nth-child(1) {
+  width: 40%; /* Producto */
+}
+
+table th:nth-child(2),
+table td:nth-child(2) {
+  width: 20%; /* Precio */
+}
+
+table th:nth-child(3),
+table td:nth-child(3) {
+  width: 20%; /* Subtotal */
+}
+
+table th:nth-child(4),
+table td:nth-child(4) {
+  width: 20%; /* Cantidad y botones */
+}
+
+/* Input de pago */
+#pago {
+  padding: 10px;
+  width: 200px !important;
+  font-size: 16px;
+  margin-right: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Cambio o falta */
+#cambio {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  min-height: 25px;
+}
+
+/* Contenedores de teclado y billetes */
+#billetes,
+#teclado {
+  margin-top: 10px;
+}

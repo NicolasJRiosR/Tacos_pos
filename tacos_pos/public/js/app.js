@@ -48,15 +48,26 @@ function renderTicket() {
 
   let total = 0;
 
-  carrito.forEach((p) => {
+  carrito.forEach((p, index) => {
     let subtotal = p.cantidad * p.precio;
     total += subtotal;
+
+    // Determinar qué mostrar en el botón -
+    let botonMenos =
+      p.cantidad === 1
+        ? `<button type="button" onclick="eliminarProducto(${index})">❌</button>`
+        : `<button type="button" onclick="cambiarCantidad(${index}, -1)">-</button>`;
+
     tbody.innerHTML += `
       <tr>
         <td>${p.nombre}</td>
-        <td>${p.cantidad}</td>
         <td>${p.precio}</td>
         <td>${subtotal}</td>
+        <td>
+          ${botonMenos}
+          <span style="margin: 0 10px;">${p.cantidad}</span>
+          <button type="button" onclick="cambiarCantidad(${index}, 1)">+</button>
+        </td>
       </tr>
     `;
   });
@@ -84,4 +95,42 @@ function calcularCambio() {
   } else {
     cambioElem.textContent = "";
   }
+}
+function agregarNumero(n) {
+  const pagoInput = document.querySelector("#pago");
+  pagoInput.value += n;
+  calcularCambio();
+}
+
+function borrarNumero() {
+  const pagoInput = document.querySelector("#pago");
+  pagoInput.value = pagoInput.value.slice(0, -1);
+  calcularCambio();
+}
+function borrartodo() {
+  const pagoInput = document.querySelector("#pago");
+  pagoInput.value = "";
+  calcularCambio();
+}
+function cambiarCantidad(index, cambio) {
+  carrito[index].cantidad += cambio;
+  if (carrito[index].cantidad < 1) {
+    carrito[index].cantidad = 1;
+  }
+  renderTicket();
+}
+function eliminarProducto(index) {
+  carrito.splice(index, 1);
+  renderTicket();
+}
+function agregarMultiples(id, nombre, precio, cantidad) {
+  for (let i = 0; i < cantidad; i++) {
+    agregarProducto(id, nombre, precio);
+  }
+}
+function agregarBillete(cantidad) {
+  const pagoInput = document.querySelector("#pago");
+  let actual = parseFloat(pagoInput.value) || 0;
+  pagoInput.value = actual + cantidad;
+  calcularCambio();
 }
