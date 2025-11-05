@@ -34,15 +34,17 @@ let carrito = [];
 
 function agregarProducto(id, nombre, precio) {
   let existente = carrito.find((p) => p.id === id);
-  if (existente) {
-    existente.cantidad++;
-  } else {
+
+  if (!existente) {
     carrito.push({ id, nombre, precio, cantidad: 1 });
+    renderTicket(id);
+  } else {
+    existente.cantidad++;
+    renderTicket();
   }
-  renderTicket();
 }
 
-function renderTicket() {
+function renderTicket(idFilaAnimada = null) {
   const tbody = document.querySelector("#ticket tbody");
   tbody.innerHTML = "";
 
@@ -52,14 +54,15 @@ function renderTicket() {
     let subtotal = p.cantidad * p.precio;
     total += subtotal;
 
-    // Determinar qué mostrar en el botón -
     let botonMenos =
       p.cantidad === 1
         ? `<button type="button" onclick="eliminarProducto(${index})">❌</button>`
         : `<button type="button" onclick="cambiarCantidad(${index}, -1)">-</button>`;
 
+    let claseAnim = idFilaAnimada && p.id === idFilaAnimada ? "tr-entrada" : "";
+
     tbody.innerHTML += `
-      <tr>
+      <tr data-id="${p.id}" class="${claseAnim}">
         <td>${p.nombre}</td>
         <td>${p.precio}</td>
         <td>${subtotal}</td>
@@ -74,10 +77,28 @@ function renderTicket() {
 
   document.querySelector("#total").textContent = total;
   document.querySelector("#productosInput").value = JSON.stringify(carrito);
-
   calcularCambio();
 }
 
+function eliminarProducto(index) {
+  const tbody = document.querySelector("#ticket tbody");
+  const fila = tbody.children[index];
+
+  // Aplicamos clase de salida
+  fila.classList.add("tr-salida");
+
+  // Esperamos a que termine la animación antes de actualizar el carrito
+  fila.addEventListener(
+    "animationend",
+    () => {
+      // Eliminamos del carrito
+      carrito.splice(index, 1);
+      // Renderizamos nuevamente
+      renderTicket();
+    },
+    { once: true }
+  );
+}
 document.querySelector("#pago").addEventListener("input", calcularCambio);
 
 function calcularCambio() {
@@ -119,13 +140,16 @@ function cambiarCantidad(index, cambio) {
   }
   renderTicket();
 }
-function eliminarProducto(index) {
-  carrito.splice(index, 1);
-  renderTicket();
-}
+
 function agregarMultiples(id, nombre, precio, cantidad) {
-  for (let i = 0; i < cantidad; i++) {
-    agregarProducto(id, nombre, precio);
+  let existente = carrito.find((p) => p.id === id);
+
+  if (existente) {
+    existente.cantidad += cantidad;
+    renderTicket(); // sin animación
+  } else {
+    carrito.push({ id, nombre, precio, cantidad });
+    renderTicket(id); // con animación solo si es nuevo
   }
 }
 function agregarBillete(cantidad) {

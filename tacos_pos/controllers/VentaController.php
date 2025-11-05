@@ -22,4 +22,5 @@ class VentaController {
             echo "<h3'> No se recibieron productos.</h3>";
         }
     }
+    
 }

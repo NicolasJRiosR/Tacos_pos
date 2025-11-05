@@ -128,3 +128,43 @@ table td:nth-child(4) {
 #teclado {
   margin-top: 10px;
 }
+/* Animación de clic */
+button:active {
+  transform: scale(0.97);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+}
+table td:nth-child(4) button {
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  padding: 5px;
+}
+@keyframes barridoDerecha {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.tr-entrada {
+  animation: barridoDerecha 0.4s ease-out;
+}
+/* Animación de salida tipo barrido a la izquierda */
+@keyframes barridoIzquierda {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+}
+
+.tr-salida {
+  animation: barridoIzquierda 0.4s ease-in forwards;
+}
